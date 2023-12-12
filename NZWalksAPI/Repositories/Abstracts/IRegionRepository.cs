@@ -6,7 +6,7 @@ namespace NZWalksAPI.Repositories.Abstracts
     {
         Task<List<Region>> GetAllAsync();
         Task<Region?> GetByIdAsync(Guid id);
-        Task<Region> AddRegionAsync(Region region);
+        Task<Region> CreateRegionAsync(Region region);
         Task<Region?> UpdateRegionAsync(Guid id, Region region);
         Task<Region?> DeleteRegionAsync(Guid id);
     }

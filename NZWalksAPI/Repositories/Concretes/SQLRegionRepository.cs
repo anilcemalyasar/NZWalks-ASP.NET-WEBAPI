@@ -16,9 +16,9 @@ namespace NZWalksAPI.Repositories.Concretes
             this.dbContext = dbContext;
         }
 
-        public async Task<Region> AddRegionAsync(Region region)
+        public async Task<Region> CreateRegionAsync(Region region)
         {
-            await dbContext.AddAsync(region);
+            await dbContext.Regions.AddAsync(region);
             await dbContext.SaveChangesAsync();
             return region;
         }
