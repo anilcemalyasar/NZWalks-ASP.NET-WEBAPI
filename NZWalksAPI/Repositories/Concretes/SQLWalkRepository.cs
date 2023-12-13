@@ -37,9 +37,34 @@ namespace NZWalksAPI.Repositories.Concretes
             return existingWalk;
         }
 
-        public async Task<List<Walk>> GetAllAsync()
+        public async Task<List<Walk>> GetAllAsync(string? filterOn = null, string? filterQuery = null,
+            string? sortBy = null, bool isAscending = true)
         {
-            return await _dbContext.Walks.Include("Region").Include("Difficulty").ToListAsync();
+            // Get IQueryable for Filtering and Paging
+            var walks = _dbContext.Walks.Include("Region").Include("Difficulty").AsQueryable();
+
+            // Filtering
+            if (String.IsNullOrWhiteSpace(filterOn) == false && String.IsNullOrWhiteSpace(filterQuery) == false)
+            {
+                if (filterOn.Equals("Name", StringComparison.OrdinalIgnoreCase)) {
+                    walks = walks.Where(w => w.Name.Contains(filterQuery));
+                }
+            }
+
+            // Sorting
+            if (String.IsNullOrWhiteSpace(sortBy) == false)
+            {
+                if (sortBy.Equals("Name", StringComparison.OrdinalIgnoreCase))
+                {
+                    walks = isAscending ? walks.OrderBy(w => w.Name) : walks.OrderByDescending(w  => w.Name);
+                }
+                else if (sortBy.Equals("Length", StringComparison.OrdinalIgnoreCase))
+                {
+                    walks = isAscending ? walks.OrderBy(w => w.LengthInKm) : walks.OrderByDescending(w => w.LengthInKm);
+                }
+            }
+
+            return await walks.ToListAsync();
         }
 
         public async Task<Walk?> GetByIdAsync(Guid id)
