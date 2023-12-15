@@ -31,7 +31,7 @@ namespace NZWalksAPI.Data
                     Id = writerRoleId,
                     ConcurrencyStamp = writerRoleId,
                     Name = "Writer",
-                    NormalizedName = "Writer".ToUpper()
+                    NormalizedName = "Wrıter".ToUpper()
                 }
             };
 
